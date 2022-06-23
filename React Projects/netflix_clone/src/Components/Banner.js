@@ -10,15 +10,17 @@ function Banner() {
   useEffect(() => {
     async function fetchData() {
       const request = await instance.get(requests.fetchNetflixOriginals);
+
       setMovie(
         request.data.results[
-          Math.floor(Math.random()) * request.data.results.length
+          Math.floor(Math.random()* request.data.results.length) 
         ]
       );
       return request;
     }
     fetchData();
   }, []);
+
   console.log(movie);
 
   function truncate(str, n) {
