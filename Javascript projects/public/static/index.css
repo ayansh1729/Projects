@@ -1,0 +1,137 @@
+.container-1{
+    border: solid black 1px;
+    width: 75%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-box-container-1{
+    border: solid black 2px;
+    display: flex;
+    padding: 10px;
+    justify-content: space-around;
+}
+
+.flex-box-container-1 div{
+    padding: 5px;
+    border: solid black 1px;
+    align-items: center;
+}
+
+.container-2{
+    border: 1px solid red;
+    width: 75%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.flex-box-container-2,.flex-box-rps{
+    display: flex;
+    padding-right: 10px;
+    padding-top: 5px;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.flex-box-container-2 img{
+    
+    height: 200px;
+    width: 200px;
+    padding: 5px;
+}
+
+.container-3{
+    border: 1px solid black;
+    width: 75%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.flex-box-rps img{
+    
+    height: 200px;
+    width: 200px;
+    padding: 5px;
+}
+
+.flex-box-rps img:hover{
+    box-shadow: 5px 10px 50px blue; 
+}
+
+.container-4{
+    border: 1px solid black;
+    width: 75%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.flex-box-pick-color{
+    display: flex;
+    padding-right: 10px;
+    padding: 5px;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.flex-box-pick-color button{
+    padding-right: 10px;
+    padding-top: 5px;
+}
+
+#change-my-color{
+    border: 1px solid black;
+}
+
+/* css for container 5 */
+
+.container-5{
+    width: 75%;
+    margin: 0 auto;
+    text-align: center;
+    border: 1px solid black;  
+}
+
+.flex-Blackjack-row1,.flex-Blackjack-row2,.flex-Blackjack-row3{
+    display: flex;
+    border: 1px solid black;
+    padding: 10px;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.flex-Blackjack-row1,.flex-Blackjack-row2{
+    background: url(./gif/black.jpg);
+    color:antiquewhite;
+}
+
+.flex-Blackjack-row1 div{
+    border: 1px solid black;
+    padding: 10px;
+    height: 400px;
+    text-align: center;
+    flex: 1;
+}
+
+.flex-Blackjack-row1 div img{
+    width: 25%;
+    padding: 10px;
+}
+
+.flex-Blackjack-row2 button,.flex-Blackjack-row2 div{
+    border: 1px solid black;
+}
+
+table,th{
+    border: 1px solid black;
+    padding: 3px;
+}
+
+
+
+
+
+
+
+
+
