@@ -15,6 +15,10 @@ import { useStateValue } from "../StateProvider";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+import Picker from "emoji-picker-react";
+import { actionTypes } from "../reducer";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import UseWindowDimensions from "../UseWindowDimensions";
 
 function Chat() {
   const [seed, setseed] = useState("");
@@ -22,8 +26,11 @@ function Chat() {
   const { roomId } = useParams();
   const [roomName, setRoomName] = useState("");
   const [messages, setMessages] = useState([]);
+  const [Emoji, setEmoji] = useState(false);
+  const [toggler, setToggler] = useState(true);
 
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user, togglerState }, dispatch] = useStateValue();
+  const { width } = UseWindowDimensions();
 
   useEffect(() => {
     if (roomId) {
@@ -45,77 +52,185 @@ function Chat() {
     setseed(Math.floor(Math.random() * 5000));
   }, [roomId]);
 
+  const onEmojiClick = (event, emojiObject) => {
+    setInput(input + emojiObject.emoji);
+  };
+
   const sendMessage = (e) => {
     e.preventDefault();
-    console.log("You typed>>", input);
-    db.collection("rooms").doc(roomId).collection("messages").add({
-      message: input,
-      name: user?.multiFactor?.user?.displayName,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    });
+    db.collection("rooms")
+      .doc(roomId)
+      .collection("messages")
+      .add({
+        message: input,
+        name: user?.multiFactor?.user?.displayName,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        photoURL: localStorage.getItem("photoURL"),
+      });
     setInput("");
+    setEmoji(false);
+  };
+  const handleDrawerToggle = () => {
+    setToggler(!toggler);
+    dispatch({
+      type: actionTypes.SET_TOGGLER,
+      togglerState: togglerState + 1,
+    });
   };
   return (
-    <div className="chat">
-      <div className="chat_header">
-        <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
-        <div className="chat_headerInfo">
-          <h3>{roomName}</h3>
-          <p>
-            last seen{" "}
-            {new Date(
-              messages[messages.length - 1]?.timestamp?.toDate()
-            ).toUTCString()}
-          </p>
+    <>
+      {width < 629 ? (
+        <div className={togglerState % 2 === 0 ? "chat" : "chat hide_chat"}>
+          <div className="chat_header">
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+            >
+              <ArrowBackIcon />
+            </IconButton>
+            <Avatar
+              src={`https://avatars.dicebear.com/api/human/${seed}.svg`}
+            />
+            <div className="chat_headerInfo">
+              <h3>{roomName}</h3>
+              <p>
+                last seen{" "}
+                {new Date(
+                  messages[messages.length - 1]?.timestamp?.toDate()
+                ).toUTCString()}
+              </p>
+            </div>
+            <div className="chat_headerRight">
+              <IconButton>
+                <SearchOutlined />
+              </IconButton>
+              <IconButton>
+                <AttachFile />
+              </IconButton>
+              <IconButton>
+                <MoreVert />
+              </IconButton>
+            </div>
+          </div>
+          <div className="chat_body">
+            {messages.map((message) => (
+              <p
+                className={`chat_message ${
+                  message.name == user?.multiFactor?.user?.displayName &&
+                  "chat_receiver"
+                }`}
+              >
+                <span className="chat_name">{message.name}</span>
+                {message.message}
+                <span className="chat_time">
+                  {new Date(message.timestamp?.toDate()).toUTCString()}
+                </span>
+              </p>
+            ))}
+          </div>
+          <div className="chat_footer">
+            <IconButton>
+              <div
+                className="emoji"
+                onClick={() => {
+                  setEmoji(!Emoji);
+                }}
+              >
+                <InsertEmoticonIcon />
+              </div>
+              {Emoji && <Picker onEmojiClick={onEmojiClick} />}
+            </IconButton>
+            <form>
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Type a message"
+              />
+              <button type="submit" onClick={sendMessage}>
+                Send
+              </button>
+            </form>
+            <IconButton>
+              <MicIcon />
+            </IconButton>
+          </div>
         </div>
-        <div className="chat_headerRight">
-          <IconButton>
-            <SearchOutlined />
-          </IconButton>
-          <IconButton>
-            <AttachFile />
-          </IconButton>
-          <IconButton>
-            <MoreVert />
-          </IconButton>
+      ) : (
+        <div className="chat">
+          <div className="chat_header">
+            <Avatar
+              src={`https://avatars.dicebear.com/api/human/${seed}.svg`}
+            />
+            <div className="chat_headerInfo">
+              <h3>{roomName}</h3>
+              <p>
+                last seen{" "}
+                {new Date(
+                  messages[messages.length - 1]?.timestamp?.toDate()
+                ).toUTCString()}
+              </p>
+            </div>
+            <div className="chat_headerRight">
+              <IconButton>
+                <SearchOutlined />
+              </IconButton>
+              <IconButton>
+                <AttachFile />
+              </IconButton>
+              <IconButton>
+                <MoreVert />
+              </IconButton>
+            </div>
+          </div>
+          <div className="chat_body">
+            {messages.map((message) => (
+              <p
+                className={`chat_message ${
+                  message.name == user?.multiFactor?.user?.displayName &&
+                  "chat_receiver"
+                }`}
+              >
+                <span className="chat_name">{message.name}</span>
+                {message.message}
+                <span className="chat_time">
+                  {new Date(message.timestamp?.toDate()).toUTCString()}
+                </span>
+              </p>
+            ))}
+          </div>
+          <div className="chat_footer">
+            <IconButton>
+              <div
+                className="emoji"
+                onClick={() => {
+                  setEmoji(!Emoji);
+                }}
+              >
+                <InsertEmoticonIcon />
+              </div>
+              {Emoji && <Picker onEmojiClick={onEmojiClick} />}
+            </IconButton>
+            <form>
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Type a message"
+              />
+              <button type="submit" onClick={sendMessage}>
+                Send
+              </button>
+            </form>
+            <IconButton>
+              <MicIcon />
+            </IconButton>
+          </div>
         </div>
-      </div>
-      <div className="chat_body">
-        {messages.map((message) => (
-          <p
-            className={`chat_message ${
-              message.name == user?.multiFactor?.user?.displayName &&
-              "chat_receiver"
-            }`}
-          >
-            <span className="chat_name">{message.name}</span>
-            {message.message}
-            <span className="chat_time">
-              {new Date(message.timestamp?.toDate()).toUTCString()}
-            </span>
-          </p>
-        ))}
-      </div>
-      <div className="chat_footer">
-        <IconButton>
-          <InsertEmoticonIcon />
-        </IconButton>
-        <form>
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type a message"
-          />
-          <button type="submit" onClick={sendMessage}>
-            Send
-          </button>
-        </form>
-        <IconButton>
-          <MicIcon />
-        </IconButton>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 

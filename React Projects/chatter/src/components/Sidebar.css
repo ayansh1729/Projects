@@ -27,6 +27,10 @@
     border-radius: 20px;
 }
 
+.search_container>input{
+    outline: none;
+}
+
 .search_container >.MuiSvgIcon-root{
     color: gray;
     padding: 10px;
@@ -54,4 +58,29 @@
     flex: 1;
     background-color: white;
     overflow-y: scroll;
+}
+
+.hide_sidebar{
+    display: none;
+}
+
+.sidebar_wrapper{
+    display: flex;
+}
+
+@media(max-width:628px) {
+    .sidebar {
+        flex: 1;
+        margin-left: 0;
+    }
+
+    .sidebar_header {
+        flex: 1;
+        background-color: #075E54;
+    }
+
+    .sidebar_wrapper {
+        background-color: #075E54 !important;
+    }
+
 }

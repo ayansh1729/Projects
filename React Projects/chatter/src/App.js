@@ -5,9 +5,14 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import Login from "./components/Login";
 import { useStateValue } from "./StateProvider";
+import UseWindowDimensions from "./UseWindowDimensions";
 
 function App() {
   const [{ user }, dispatch] = useStateValue();
+  const uid =
+    localStorage.getItem("uid") !== undefined
+      ? localStorage.getItem("uid")
+      : null;
   return (
     //BEM naming conventions
     <div className="app">
@@ -17,7 +22,7 @@ function App() {
         <div className="app_body">
           <Router>
             <Routes>
-              <Route path="/app" element={<Sidebar />} />
+              <Route path="/" element={<Sidebar />} />
               <Route
                 path="/rooms/:roomId"
                 element={
@@ -27,7 +32,6 @@ function App() {
                   </>
                 }
               />
-              <Route path="/" element={<h1>Home Screen</h1>} />
             </Routes>
           </Router>
         </div>
