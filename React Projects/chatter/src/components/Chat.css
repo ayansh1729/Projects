@@ -95,8 +95,7 @@
 
 .chat_footer > .MuiSvgIcon-root{
     padding: 10px;
-    color: gray;
-    
+    color: gray;  
 }
 
 .emoji-picker-react{
@@ -145,5 +144,9 @@
         width: 100vw !important;
         z-index: 999;
         top: -970%;
+    }
+    .chat_footer > .MuiSvgIcon-root{
+        padding: 10px;
+        color: gray;  
     }
 }

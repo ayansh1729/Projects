@@ -19,6 +19,7 @@ import Picker from "emoji-picker-react";
 import { actionTypes } from "../reducer";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import UseWindowDimensions from "../UseWindowDimensions";
+import SendIcon from "@material-ui/icons/Send";
 
 function Chat() {
   const [seed, setseed] = useState("");
@@ -31,6 +32,7 @@ function Chat() {
 
   const [{ user, togglerState }, dispatch] = useStateValue();
   const { width } = UseWindowDimensions();
+  const [showSend, setshowSend] = useState(false);
 
   useEffect(() => {
     if (roomId) {
@@ -47,6 +49,10 @@ function Chat() {
         );
     }
   }, [roomId]);
+
+  const show_send = () => {
+    setshowSend(true);
+  };
 
   useEffect(() => {
     setseed(Math.floor(Math.random() * 5000));
@@ -69,6 +75,7 @@ function Chat() {
       });
     setInput("");
     setEmoji(false);
+    setshowSend(false);
   };
   const handleDrawerToggle = () => {
     setToggler(!toggler);
@@ -76,6 +83,7 @@ function Chat() {
       type: actionTypes.SET_TOGGLER,
       togglerState: togglerState + 1,
     });
+    setshowSend(false);
   };
   return (
     <>
@@ -146,6 +154,7 @@ function Chat() {
               <input
                 type="text"
                 value={input}
+                onClick={show_send}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type a message"
               />
@@ -154,7 +163,8 @@ function Chat() {
               </button>
             </form>
             <IconButton>
-              <MicIcon />
+              {!showSend && <MicIcon />}
+              {showSend && <SendIcon onClick={sendMessage} />}
             </IconButton>
           </div>
         </div>

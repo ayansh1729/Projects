@@ -15,6 +15,12 @@
 }
 
 @media(max-width:628px) {
+  .app{
+    height: 100vh;
+    margin: 0 !important;
+    width: 100vw;
+    overflow-x: hidden;
+  }
   .app_body {
     height: 100vh;
     margin: 0 !important;

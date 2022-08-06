@@ -26,7 +26,9 @@ function Login() {
         <div className="login_text">
           <h1>Sign in to Chatter</h1>
         </div>
-        <Button onClick={signIn}>Sign In with Google</Button>
+        <Button className="button" onClick={signIn}>
+          Sign In with Google
+        </Button>
       </div>
     </div>
   );

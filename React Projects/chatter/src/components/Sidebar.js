@@ -99,7 +99,7 @@ function Sidebar() {
               <MenuIcon />
             </IconButton>
             <div className="sidebar_header">
-              <Avatar src={photoURL} />
+              <Avatar src={user?.multiFactor?.user?.photoURL} />
               <div className="header_right">
                 <IconButton>
                   <DonutLargeIcon />
